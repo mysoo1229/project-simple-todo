@@ -21,7 +21,7 @@ const TabWrap = styled.div`
   display: flex;
   margin: 30px 0 16px;
   padding: 2px;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #fff;
 
   button {
@@ -63,9 +63,7 @@ function ToDoPage() {
         {toDos.map((toDo) => (
           <ToDoItem
             key={toDo.id}
-            id={toDo.id}
-            text={toDo.text}
-            category={toDo.category}
+            {...toDo}
           />
         ))}
       </ResultList>

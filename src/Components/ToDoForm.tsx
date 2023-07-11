@@ -8,7 +8,7 @@ const Form = styled.form`
   display: flex;
   gap: 4px;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 2px;
 `;
 
@@ -16,7 +16,6 @@ const Input = styled.input`
   flex: 1;
   padding: 6px 12px;
   border: none;
-  border-radius: 10px;
   background: none;
   color: #000;
 `;
@@ -24,7 +23,7 @@ const Input = styled.input`
 const AddButton = styled.button`
   padding: 0 10px;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   background: ${(props) => props.theme.accentColor};
   font-size: 15px;
   line-height: 28px;
