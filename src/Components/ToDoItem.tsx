@@ -47,6 +47,7 @@ const ButtonDelete = styled.button`
   position: relative;
   width: 18px;
   height: 18px;
+  margin-top: 1px;
   margin-left: auto;
   background: #ccc;
   border-radius: 9px;

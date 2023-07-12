@@ -129,6 +129,11 @@ const LayerForm = styled.form`
     padding: 12px 14px;
     border: 1px solid #ccc;
     border-radius: 6px;
+    font-size: 13px;
+
+    &::placeholder {
+      color: #999;
+    }
   }
 `;
 

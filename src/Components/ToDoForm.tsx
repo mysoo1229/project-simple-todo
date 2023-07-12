@@ -17,7 +17,12 @@ const Input = styled.input`
   padding: 6px 12px;
   border: none;
   background: none;
+  font-size: 13px;
   color: #000;
+
+  &::placeholder {
+    color: #999;
+  }
 `;
 
 const AddButton = styled.button`
