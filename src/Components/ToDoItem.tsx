@@ -1,5 +1,5 @@
 import { useSetRecoilState } from "recoil";
-import { IToDo, toDoState } from "../atoms";
+import { Categories, IToDo, toDoState } from "../atoms";
 import { styled } from "styled-components";
 
 const Item = styled.li`
@@ -78,23 +78,23 @@ function ToDoItem({ id, text, category }: IToDo) {
     <Item>
       <ButtonWrap>
         <ButtonToDo
-          name={"TODO"}
+          name={Categories.TODO}
           onClick={changeCategory}
-          disabled={category === "TODO" && true}
+          disabled={category === Categories.TODO && true}
         >
           To Do
         </ButtonToDo>
         <ButtonDoing
-          name={"DOING"}
+          name={Categories.DOING}
           onClick={changeCategory}
-          disabled={category === "DOING" && true}
+          disabled={category === Categories.DOING && true}
         >
           Doing
         </ButtonDoing>
         <ButtonDone
-          name={"DONE"}
+          name={Categories.DONE}
           onClick={changeCategory}
-          disabled={category === "DONE" && true}
+          disabled={category === Categories.DONE && true}
         >
           Done
         </ButtonDone>

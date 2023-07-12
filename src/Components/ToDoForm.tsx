@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
-import { toDoState } from "../atoms";
+import { tabState, toDoState } from "../atoms";
 
 const Form = styled.form`
   flex: 1;
@@ -37,13 +37,14 @@ interface IForm {
 
 function ToDoForm() {
   const setToDos = useSetRecoilState(toDoState);
+  const activeTab = useRecoilValue(tabState);
   const { register, handleSubmit, setValue} = useForm<IForm>();
   const onValid = ({ toDoInput }: IForm) => {
     setToDos((oldToDos) => [
       {
         id: Date.now(),
         text: toDoInput,
-        category: "TODO",
+        category: activeTab,
       },
       ...oldToDos,
     ]);

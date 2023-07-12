@@ -1,8 +1,8 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import ToDoForm from "./ToDoForm";
 import ToDoItem from "./ToDoItem";
 import { styled } from "styled-components";
-import { toDoState } from "../atoms";
+import { Categories, tabState, toDoSelector } from "../atoms";
 
 const Container = styled.div`
   max-width: 460px;
@@ -48,15 +48,31 @@ const ResultList = styled.ul`
 
 
 function ToDoPage() {
-  const toDos = useRecoilValue(toDoState);
+  const toDos = useRecoilValue(toDoSelector);
+  const [activeTab, setActiveTab] = useRecoilState(tabState);
+  const changeTab = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setActiveTab(event.currentTarget.name as any);
+  };
 
   return (
     <Container>
       <Title>TO DO LIST</Title>
       <TabWrap>
-        <button>TO DO</button>
-        <button>DOING</button>
-        <button>DONE</button>
+        <button
+          name={Categories.TODO}
+          onClick={changeTab}
+          disabled={activeTab === Categories.TODO ? true : false}
+        >TO DO</button>
+        <button
+          name={Categories.DOING}
+          onClick={changeTab}
+          disabled={activeTab === Categories.DOING ? true : false}
+        >DOING</button>
+        <button
+          name={Categories.DONE}
+          onClick={changeTab}
+          disabled={activeTab === Categories.DONE ? true : false}
+        >DONE</button>
       </TabWrap>
       <ToDoForm />
       <ResultList>
