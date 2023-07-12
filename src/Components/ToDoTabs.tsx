@@ -1,5 +1,5 @@
 import { useRecoilState,  } from "recoil";
-import { tabArrayState, tabState } from "../atoms";
+import { categoriesState, categoryState } from "../atoms";
 import { styled } from "styled-components";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -73,6 +73,7 @@ const TabWrap = styled.div`
 `;
 
 const LayerWrap = styled.div`
+  z-index: 99;
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, .7);
@@ -136,22 +137,22 @@ interface ITabForm {
 };
 
 function ToDoTabs() {
-  const [activeTab, setActiveTab] = useRecoilState(tabState);
-  const [tabArray, setTabArray] = useRecoilState(tabArrayState);
+  const [activeCategory, setActiveCategory] = useRecoilState(categoryState);
+  const [categories, setCategories] = useRecoilState(categoriesState);
   const { register, handleSubmit, setValue } = useForm<ITabForm>();
   const [layerOpen, setLayerOpen] = useState(false);
 
   const changeTab = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActiveTab(event.currentTarget.name as any);
+    setActiveCategory(event.currentTarget.name as any);
   };
 
   const onValid = ({ tabInput }: ITabForm) => {
-    if (tabArray.includes(tabInput)) {
+    if (categories.includes(tabInput)) {
       alert("This category is already present! Add something else.");
       return;
     };
 
-    setTabArray((oldTabs) => {
+    setCategories((oldTabs) => {
       return [
         ...oldTabs,
         tabInput as any
@@ -160,25 +161,25 @@ function ToDoTabs() {
 
     setValue("tabInput", "");
     setLayerOpen((prev) => !prev);
-    setActiveTab(tabInput);
+    setActiveCategory(tabInput);
   };
 
-  const toggleLayer = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const toggleLayer = () => {
     setLayerOpen((prev) => !prev);
   };
 
   return (
     <>
       <TabContainer>
-        <TabAddButton onClick={toggleLayer} />
+        <TabAddButton onClick={toggleLayer} aria-label="Add a category" />
         <TabWrap>
-          {tabArray.map((tab, index) => (
+          {categories.map((category, index) => (
             <button
               key={index}
-              name={tab}
+              name={category}
               onClick={changeTab}
-              disabled={activeTab === tab ? true : false}
-            >{tab === "TODO" ? "TO DO" : tab}</button>
+              disabled={activeCategory === category ? true : false}
+            >{category}</button>
           ))}
         </TabWrap>
       </TabContainer>
@@ -186,7 +187,7 @@ function ToDoTabs() {
       {layerOpen ? (
         <LayerWrap>
           <LayerInner>
-            <LayerCloseButton onClick={toggleLayer} />
+            <LayerCloseButton onClick={toggleLayer} aria-label="Close layer" />
             <LayerTitle>ADD A NEW CATEGORY</LayerTitle>
               <LayerForm onSubmit={handleSubmit(onValid)}>
                 <input

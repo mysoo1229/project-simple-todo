@@ -1,5 +1,5 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { IToDo, tabArrayState, toDoState } from "../atoms";
+import { IToDo, categoriesState, toDoState } from "../atoms";
 import { styled } from "styled-components";
 
 const Item = styled.li`
@@ -71,7 +71,7 @@ const ButtonDelete = styled.button`
 
 function ToDoItem({ id, text, category }: IToDo) {
   const setToDos = useSetRecoilState(toDoState);
-  const tabArray = useRecoilValue(tabArrayState);
+  const categories = useRecoilValue(categoriesState);
 
   const changeCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
@@ -103,17 +103,17 @@ function ToDoItem({ id, text, category }: IToDo) {
   return (
     <Item>
       <ButtonWrap>
-        {tabArray.map((tab, index) => (
+        {categories.map((item, index) => (
           <ButtonCategory
             key={index}
-            name={tab}
+            name={item}
             onClick={changeCategory}
-            disabled={category === tab && true}
+            disabled={item === category && true}
           >
-            {tab}
+            {item}
           </ButtonCategory>
         ))}
-        <ButtonDelete onClick={deleteToDo} />
+        <ButtonDelete onClick={deleteToDo} aria-label="Delete task" />
       </ButtonWrap>
       <span>{text}</span>
     </Item>

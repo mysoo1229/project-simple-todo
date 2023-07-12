@@ -18,16 +18,16 @@ export const toDoState = atom<IToDo[]>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export let tabArray = ["TO DO", "DOING", "DONE"];
+export const initialCategories = ["TO DO", "DOING", "DONE"];
 
-export const tabState = atom<string>({
-  key: "tabState",
-  default: tabArray[0],
+export const categoryState = atom<string>({
+  key: "categoryState",
+  default: initialCategories[0],
 });
 
-export const tabArrayState = atom<string[]>({
-  key: "tabArrayState",
-  default: tabArray,
+export const categoriesState = atom<string[]>({
+  key: "categoriesState",
+  default: initialCategories,
   effects_UNSTABLE: [persistAtom],
 });
 
@@ -35,8 +35,8 @@ export const toDoSelector = selector({
   key: "toDoSelector",
   get: ({ get }) => {
     const toDos = get(toDoState);
-    const tabs = get(tabState);
+    const activeCategory = get(categoryState);
 
-    return toDos.filter((toDo) => toDo.category === tabs);
+    return toDos.filter((toDo) => toDo.category === activeCategory);
   },
 });
