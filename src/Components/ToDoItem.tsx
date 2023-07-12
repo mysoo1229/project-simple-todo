@@ -43,6 +43,32 @@ const ButtonCategory = styled.button<{ name: string }>`
   }
 `;
 
+const ButtonDelete = styled.button`
+  position: relative;
+  width: 18px;
+  height: 18px;
+  margin-left: auto;
+  background: #ccc;
+  border-radius: 9px;
+
+  &:before,
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 4px;
+    width: 10px;
+    height: 2px;
+    background: #fff;
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    transform: rotate(-45deg);
+  }
+`;
+
 function ToDoItem({ id, text, category }: IToDo) {
   const setToDos = useSetRecoilState(toDoState);
   const tabArray = useRecoilValue(tabArrayState);
@@ -68,6 +94,12 @@ function ToDoItem({ id, text, category }: IToDo) {
     });
   };
 
+  const deleteToDo = () => {
+    setToDos((toDos) => {
+      return toDos.filter((toDo) => toDo.id !== id);
+    })
+  };
+
   return (
     <Item>
       <ButtonWrap>
@@ -81,6 +113,7 @@ function ToDoItem({ id, text, category }: IToDo) {
             {tab}
           </ButtonCategory>
         ))}
+        <ButtonDelete onClick={deleteToDo} />
       </ButtonWrap>
       <span>{text}</span>
     </Item>
