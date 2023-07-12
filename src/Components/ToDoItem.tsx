@@ -1,5 +1,5 @@
-import { useSetRecoilState } from "recoil";
-import { Categories, IToDo, toDoState } from "../atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { IToDo, tabArrayState, toDoState } from "../atoms";
 import { styled } from "styled-components";
 
 const Item = styled.li`
@@ -22,37 +22,31 @@ const ButtonWrap = styled.div`
   gap: 4px;
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
+`;
 
-  button {
-    padding: 3px 6px;
-    border: none;
-    border-radius: 4px;
-    font-size: 12px;
-    color: #fff;
+const ButtonCategory = styled.button<{ name: string }>`
+  padding: 3px 6px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  background: ${(props) => 
+    props.name === 'TO DO' ? '#ff6262'
+    : props.name === 'DOING' ? '#deb034'
+    : props.name === 'DONE' ? '#3bb98b'
+    : '#444'
+  };
+  text-transform: uppercase;
+  color: #fff;
 
-    + button {
-    }
-
-    &:disabled {
-      background: #ccc;
-    }
+  &:disabled {
+    background: #ccc;
   }
-`;
-
-const ButtonToDo = styled.button`
-  background: #ff6262;
-`;
-
-const ButtonDoing = styled.button`
-  background: #deb034;
-`;
-
-const ButtonDone = styled.button`
-  background: #3bb98b;
 `;
 
 function ToDoItem({ id, text, category }: IToDo) {
   const setToDos = useSetRecoilState(toDoState);
+  const tabArray = useRecoilValue(tabArrayState);
+
   const changeCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
       currentTarget: { name }
@@ -77,27 +71,16 @@ function ToDoItem({ id, text, category }: IToDo) {
   return (
     <Item>
       <ButtonWrap>
-        <ButtonToDo
-          name={Categories.TODO}
-          onClick={changeCategory}
-          disabled={category === Categories.TODO && true}
-        >
-          To Do
-        </ButtonToDo>
-        <ButtonDoing
-          name={Categories.DOING}
-          onClick={changeCategory}
-          disabled={category === Categories.DOING && true}
-        >
-          Doing
-        </ButtonDoing>
-        <ButtonDone
-          name={Categories.DONE}
-          onClick={changeCategory}
-          disabled={category === Categories.DONE && true}
-        >
-          Done
-        </ButtonDone>
+        {tabArray.map((tab, index) => (
+          <ButtonCategory
+            key={index}
+            name={tab}
+            onClick={changeCategory}
+            disabled={category === tab && true}
+          >
+            {tab}
+          </ButtonCategory>
+        ))}
       </ButtonWrap>
       <span>{text}</span>
     </Item>

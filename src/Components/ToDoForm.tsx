@@ -58,7 +58,7 @@ function ToDoForm() {
           required: "Please write a task",
         })}
         type="text"
-        placeholder="What to do?"
+        placeholder="Add your task !"
       />
       <AddButton>ADD</AddButton>
     </Form>
